@@ -1,0 +1,80 @@
+---
+import { TrendingUp, Users, BookOpen } from 'lucide-astro';
+---
+
+<section class="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-dark-950 dark:via-dark-900 dark:to-dark-950">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-30 dark:opacity-10">
+    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.1) 1px, transparent 0); background-size: 20px 20px;"></div>
+  </div>
+  
+  <!-- Gradient Overlays -->
+  <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 dark:bg-primary-500/20 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-500/10 dark:bg-accent-500/20 rounded-full blur-3xl"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+    <div class="text-center">
+      <!-- Main Heading -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 animate-slide-up">
+        Insights That
+        <span class="bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-400 dark:to-accent-400 bg-clip-text text-transparent">
+          Inspire
+        </span>
+      </h1>
+      
+      <!-- Subtitle -->
+      <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up" style="animation-delay: 0.1s;">
+        Discover cutting-edge articles on technology, development, and design. 
+        Stay ahead with insights from industry experts and passionate creators.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-slide-up" style="animation-delay: 0.2s;">
+        <a 
+          href="#latest" 
+          class="px-8 py-4 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-lg hover:from-primary-700 hover:to-accent-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          Explore Articles
+        </a>
+        <a 
+          href="/about" 
+          class="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-dark-800/50"
+        >
+          Learn More
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 0.3s;">
+        <div class="text-center">
+          <div class="flex justify-center mb-2">
+            <TrendingUp size={24} class="text-primary-600 dark:text-primary-400" />
+          </div>
+          <div class="text-2xl font-bold text-gray-900 dark:text-white">50+</div>
+          <div class="text-gray-600 dark:text-gray-400 text-sm">Articles Published</div>
+        </div>
+        <div class="text-center">
+          <div class="flex justify-center mb-2">
+            <Users size={24} class="text-accent-600 dark:text-accent-400" />
+          </div>
+          <div class="text-2xl font-bold text-gray-900 dark:text-white">10K+</div>
+          <div class="text-gray-600 dark:text-gray-400 text-sm">Monthly Readers</div>
+        </div>
+        <div class="text-center">
+          <div class="flex justify-center mb-2">
+            <BookOpen size={24} class="text-primary-600 dark:text-primary-400" />
+          </div>
+          <div class="text-2xl font-bold text-gray-900 dark:text-white">5</div>
+          <div class="text-gray-600 dark:text-gray-400 text-sm">Categories</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <div class="w-6 h-10 border-2 border-gray-400 dark:border-gray-500 rounded-full flex justify-center">
+      <div class="w-1 h-3 bg-gray-400 dark:bg-gray-500 rounded-full mt-2 animate-pulse"></div>
+    </div>
+  </div>
+</section>

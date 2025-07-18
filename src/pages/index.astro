@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import BlogGrid from '../components/BlogGrid.astro';
+import { getAllPosts, getFeaturedPost } from '../lib/supabase';
+
+// Fetch data from Supabase
+const [posts, featuredPost] = await Promise.all([
+  getAllPosts(),
+  getFeaturedPost()
+]);
+
+// Filter out featured post from regular posts to avoid duplication
+const regularPosts = featuredPost 
+  ? posts.filter(post => post.id !== featuredPost.id)
+  : posts;
+---
+
+<BaseLayout title="Modern Blog - Latest Insights on Technology & Development">
+  <Hero />
+  
+  <section id="latest" class="bg-gray-50/50 dark:bg-dark-950">
+    <BlogGrid posts={regularPosts} featured={featuredPost} />
+  </section>
+</BaseLayout>

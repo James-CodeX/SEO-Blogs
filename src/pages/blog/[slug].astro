@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Calendar, Clock, User, ArrowLeft } from 'lucide-astro';
+import { getAllPosts, getPostBySlug } from '../../lib/supabase';
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const formattedDate = new Date(post.published_at).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+<BaseLayout 
+  title={post.title}
+  description={post.description}
+  image={post.image}
+  article={true}
+  publishedTime={post.published_at}
+  modifiedTime={post.updated_at}
+  tags={post.tags}
+>
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Back Button -->
+    <div class="mb-8">
+      <a 
+        href="/" 
+        class="inline-flex items-center space-x-2 text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
+      >
+        <ArrowLeft size={20} />
+        <span>Back to Articles</span>
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="mb-12">
+      <!-- Category Badge -->
+      <div class="mb-4">
+        <span class="px-3 py-1 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-medium rounded-full">
+          {post.category}
+        </span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
+        {post.title}
+      </h1>
+
+      <!-- Meta Information -->
+      <div class="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-8">
+        <div class="flex items-center space-x-2">
+          <User size={16} />
+          <span>{post.author}</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <Calendar size={16} />
+          <span>{formattedDate}</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <Clock size={16} />
+          <span>{post.read_time}</span>
+        </div>
+      </div>
+
+      <!-- Featured Image -->
+      {post.image && (
+        <div class="relative h-64 md:h-96 overflow-hidden rounded-xl shadow-lg mb-8">
+          <img 
+            src={post.image} 
+            alt={post.title}
+            class="w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+        </div>
+      )}
+
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-2">
+        {post.tags.map(tag => (
+          <span class="px-3 py-1 bg-gray-100 dark:bg-dark-800 text-gray-600 dark:text-gray-400 text-sm rounded-full hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    <!-- Article Content -->
+    <div class="prose prose-lg prose-gray dark:prose-invert max-w-none">
+      <Fragment set:html={post.content} />
+    </div>
+
+    <!-- Article Footer -->
+    <footer class="mt-16 pt-8 border-t border-gray-200 dark:border-dark-800">
+      <div class="flex justify-between items-center">
+        <div class="text-gray-600 dark:text-gray-400">
+          <p>Found this article helpful? Share it with others!</p>
+        </div>
+        <div class="flex space-x-4">
+          <button class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
+            Share
+          </button>
+          <button class="px-4 py-2 border border-gray-300 dark:border-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:border-primary-500 hover:text-primary-500 transition-colors">
+            Bookmark
+          </button>
+        </div>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>

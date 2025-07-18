@@ -1,0 +1,264 @@
+---
+import { Menu, X, Search, Sun, Moon, ChevronDown } from 'lucide-astro';
+---
+
+<nav class="sticky top-0 z-50 bg-white/95 dark:bg-dark-950/95 backdrop-blur-lg border-b border-gray-200/80 dark:border-dark-800/80 transition-all duration-300 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center space-x-2 group">
+          <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center shadow-lg">
+            <span class="text-white font-bold">B</span>
+          </div>
+          <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+            Blogs
+          </span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-8">
+          <a href="/" class="nav-link" data-page="home">Latest</a>
+          
+          <!-- Categories Dropdown -->
+          <div class="relative group">
+            <button class="nav-link flex items-center space-x-1" id="categories-menu">
+              <span>Categories</span>
+              <ChevronDown size={16} class="transition-transform group-hover:rotate-180" />
+            </button>
+            <div class="absolute top-full left-0 mt-2 w-48 bg-white/95 dark:bg-dark-900/95 backdrop-blur-lg rounded-lg shadow-xl border border-gray-200/50 dark:border-dark-700/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50" id="categories-dropdown">
+              <div class="py-2">
+                <!-- Categories will be loaded dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Tags Dropdown -->
+          <div class="relative group">
+            <button class="nav-link flex items-center space-x-1" id="tags-menu">
+              <span>Tags</span>
+              <ChevronDown size={16} class="transition-transform group-hover:rotate-180" />
+            </button>
+            <div class="absolute top-full left-0 mt-2 w-48 bg-white/95 dark:bg-dark-900/95 backdrop-blur-lg rounded-lg shadow-xl border border-gray-200/50 dark:border-dark-700/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50" id="tags-dropdown">
+              <div class="py-2">
+                <!-- Tags will be loaded dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <a href="/search" class="nav-link" data-page="search">Search</a>
+        </div>
+      </div>
+
+      <!-- Right side buttons -->
+      <div class="flex items-center space-x-4">
+        <!-- Search Button -->
+        <button 
+          id="search-btn"
+          class="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800"
+          aria-label="Search"
+        >
+          <Search size={20} />
+        </button>
+
+        <!-- Theme Toggle -->
+        <button 
+          id="theme-toggle"
+          class="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800"
+          aria-label="Toggle theme"
+        >
+          <Sun size={20} class="hidden dark:block" />
+          <Moon size={20} class="block dark:hidden" />
+        </button>
+
+        <!-- Mobile menu button -->
+        <button 
+          id="mobile-menu-btn"
+          class="md:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800"
+          aria-label="Open menu"
+        >
+          <Menu size={20} id="menu-icon" />
+          <X size={20} id="close-icon" class="hidden" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="md:hidden hidden border-t border-gray-200/80 dark:border-dark-800/80 bg-white/95 dark:bg-dark-950/95 backdrop-blur-lg">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="/" class="mobile-nav-link">Latest</a>
+        <div id="mobile-categories">
+          <!-- Categories will be loaded dynamically -->
+        </div>
+        <a href="/search" class="mobile-nav-link">Search</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+    <div class="flex items-start justify-center min-h-screen pt-16">
+      <div class="bg-white/95 dark:bg-dark-900/95 backdrop-blur-lg rounded-lg shadow-2xl w-full max-w-2xl mx-4 animate-scale-in border border-gray-200/50 dark:border-dark-700/50">
+        <div class="p-6">
+          <div class="relative">
+            <Search size={20} class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input 
+              type="text" 
+              id="search-input"
+              placeholder="Search articles..." 
+              class="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              autocomplete="off"
+            />
+            <button 
+              id="close-search"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          <div id="search-results" class="mt-4 max-h-96 overflow-y-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav-link {
+    @apply text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-gray-100/50 dark:hover:bg-dark-800/50;
+  }
+
+  .nav-link.active {
+    @apply text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20;
+  }
+
+  .dropdown-link {
+    @apply block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors;
+  }
+
+  .mobile-nav-link {
+    @apply block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-dark-800 transition-colors;
+  }
+</style>
+
+<script>
+  // Load categories and tags dynamically
+  async function loadNavigationData() {
+    try {
+      // This would typically be an API call to get categories and tags
+      // For now, we'll populate from the current page data if available
+      const categoriesDropdown = document.getElementById('categories-dropdown')?.querySelector('.py-2');
+      const tagsDropdown = document.getElementById('tags-dropdown')?.querySelector('.py-2');
+      const mobileCategories = document.getElementById('mobile-categories');
+      
+      // You can extend this to fetch from Supabase API endpoints
+      const defaultCategories = [
+        { name: 'Coding', slug: 'coding' },
+        { name: 'Development', slug: 'development' },
+        { name: 'Design', slug: 'design' },
+        { name: 'Technology', slug: 'technology' }
+      ];
+      
+      const defaultTags = [
+        { name: 'JavaScript', slug: 'javascript' },
+        { name: 'React', slug: 'react' },
+        { name: 'Astro', slug: 'astro' },
+        { name: 'CSS', slug: 'css' }
+      ];
+      
+      // Populate categories dropdown
+      if (categoriesDropdown) {
+        categoriesDropdown.innerHTML = defaultCategories.map(cat => 
+          `<a href="/category/${cat.slug}" class="dropdown-link">${cat.name}</a>`
+        ).join('');
+      }
+      
+      // Populate tags dropdown
+      if (tagsDropdown) {
+        tagsDropdown.innerHTML = defaultTags.map(tag => 
+          `<a href="/tag/${tag.slug}" class="dropdown-link">${tag.name}</a>`
+        ).join('');
+      }
+      
+      // Populate mobile categories
+      if (mobileCategories) {
+        mobileCategories.innerHTML = defaultCategories.map(cat => 
+          `<a href="/category/${cat.slug}" class="mobile-nav-link">${cat.name}</a>`
+        ).join('');
+      }
+    } catch (error) {
+      console.error('Error loading navigation data:', error);
+    }
+  }
+  
+  // Load navigation data on page load
+  loadNavigationData();
+
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  
+  themeToggle?.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
+
+  // Set active nav link
+  function setActiveNavLink() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link[data-page]');
+    
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      const href = link.getAttribute('href');
+      if (href === currentPath || (currentPath === '/' && href === '/')) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // Set active link on page load
+  setActiveNavLink();
+
+  // Mobile menu toggle
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  mobileMenuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+
+  // Search functionality
+  const searchBtn = document.getElementById('search-btn');
+  const searchOverlay = document.getElementById('search-overlay');
+  const closeSearch = document.getElementById('close-search');
+  const searchInput = document.getElementById('search-input');
+
+  searchBtn?.addEventListener('click', () => {
+    searchOverlay?.classList.remove('hidden');
+    searchInput?.focus();
+  });
+
+  closeSearch?.addEventListener('click', () => {
+    searchOverlay?.classList.add('hidden');
+  });
+
+  searchOverlay?.addEventListener('click', (e) => {
+    if (e.target === searchOverlay) {
+      searchOverlay.classList.add('hidden');
+    }
+  });
+
+  // ESC key to close search
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !searchOverlay?.classList.contains('hidden')) {
+      searchOverlay?.classList.add('hidden');
+    }
+  });
+</script>

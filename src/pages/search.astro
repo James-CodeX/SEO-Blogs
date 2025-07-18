@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { Search } from 'lucide-astro';
+import { getAllPosts } from '../lib/supabase';
+
+// Get all posts for search functionality
+const allPosts = await getAllPosts();
+---
+
+<BaseLayout title="Search Articles" description="Search through our collection of articles">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Search Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+        Search Articles
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
+        Find articles on topics that interest you
+      </p>
+      
+      <!-- Search Input -->
+      <div class="max-w-2xl mx-auto relative">
+        <Search size={20} class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <input 
+          type="text" 
+          id="search-input"
+          placeholder="Search articles, tags, or categories..." 
+          class="w-full pl-12 pr-4 py-4 bg-white dark:bg-dark-900 border border-gray-300 dark:border-dark-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg"
+        />
+      </div>
+    </div>
+
+    <!-- Search Results -->
+    <div id="search-results">
+      <div id="no-results" class="text-center py-16 hidden">
+        <p class="text-gray-600 dark:text-gray-400 text-lg">No articles found. Try different keywords.</p>
+      </div>
+      
+      <div id="all-posts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {allPosts.map(post => (
+          <BlogCard 
+            title={post.title}
+            description={post.description}
+            slug={post.slug}
+            image={post.image}
+            date={post.published_at}
+            readTime={post.read_time}
+            category={post.category}
+            tags={post.tags}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ posts: allPosts }}>
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+  const noResults = document.getElementById('no-results');
+  const allPostsContainer = document.getElementById('all-posts');
+  
+  searchInput?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    
+    if (query === '') {
+      allPostsContainer?.classList.remove('hidden');
+      noResults?.classList.add('hidden');
+      // Show all articles
+      const articles = allPostsContainer?.querySelectorAll('article');
+      articles?.forEach(article => {
+        article.style.display = 'block';
+      });
+      return;
+    }
+
+    const filteredPosts = posts.filter(post => 
+      post.title.toLowerCase().includes(query) ||
+      post.description.toLowerCase().includes(query) ||
+      post.category.toLowerCase().includes(query) ||
+      post.tags.some(tag => tag.toLowerCase().includes(query))
+    );
+
+    const articles = allPostsContainer?.querySelectorAll('article');
+    let visibleCount = 0;
+
+    articles?.forEach((article, index) => {
+      if (index < filteredPosts.length) {
+        article.style.display = 'block';
+        visibleCount++;
+      } else {
+        article.style.display = 'none';
+      }
+    });
+
+    if (visibleCount === 0) {
+      noResults?.classList.remove('hidden');
+      allPostsContainer?.classList.add('hidden');
+    } else {
+      noResults?.classList.add('hidden');
+      allPostsContainer?.classList.remove('hidden');
+    }
+  });
+</script>

@@ -1,0 +1,87 @@
+---
+import { Github, Twitter, Linkedin, Mail, Heart } from 'lucide-astro';
+---
+
+<footer class="bg-white dark:bg-dark-900 border-t border-gray-200/80 dark:border-dark-800/80">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div class="col-span-1 md:col-span-2">
+        <div class="flex items-center space-x-2 mb-4">
+          <div class="w-8 h-8 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg flex items-center justify-center shadow-lg">
+            <span class="text-white font-bold">B</span>
+          </div>
+          <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+            Blogs
+          </span>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400 mb-4 max-w-md">
+          A modern blog featuring insights on technology, development, and design. 
+          Stay updated with the latest trends and best practices.
+        </p>
+        <div class="flex space-x-4">
+          <a href="#" class="social-link" aria-label="Github">
+            <Github size={20} />
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <Twitter size={20} />
+          </a>
+          <a href="#" class="social-link" aria-label="LinkedIn">
+            <Linkedin size={20} />
+          </a>
+          <a href="#" class="social-link" aria-label="Email">
+            <Mail size={20} />
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-4">
+          Quick Links
+        </h3>
+        <ul class="space-y-2">
+          <li><a href="/" class="footer-link">Latest Posts</a></li>
+          <li><a href="/about" class="footer-link">About</a></li>
+          <li><a href="/contact" class="footer-link">Contact</a></li>
+          <li><a href="/rss.xml" class="footer-link">RSS Feed</a></li>
+        </ul>
+      </div>
+
+      <!-- Categories -->
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-4">
+          Categories
+        </h3>
+        <ul class="space-y-2">
+          <li><a href="/category/coding" class="footer-link">Coding</a></li>
+          <li><a href="/category/development" class="footer-link">Development</a></li>
+          <li><a href="/category/design" class="footer-link">Design</a></li>
+          <li><a href="/category/technology" class="footer-link">Technology</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-12 pt-8 border-t border-gray-200/80 dark:border-dark-800/80">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          © 2025 Modern Blog. All rights reserved.
+        </p>
+        <p class="text-gray-600 dark:text-gray-400 text-sm flex items-center mt-2 md:mt-0">
+          Made with <Heart size={16} class="mx-1 text-red-500" fill="currentColor" /> and Astro
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .social-link {
+    @apply text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800;
+  }
+
+  .footer-link {
+    @apply text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 text-sm;
+  }
+</style>
